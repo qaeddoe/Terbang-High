@@ -5,7 +5,25 @@
 {% block content %}
 
     <!-- Hero Section -->
-    <div class="hero" style="height: 100vh; background-image: url('https://www.airasia.com/Asset/images/landing-pages/homepage-hero-v2.jpg'); background-size: cover; background-position: center; color: white; display: flex; justify-content: center; align-items: center; text-align: center;">
+
+    <div class="slideshow-container">
+        <div class="slide fade">
+          <img src="{{ url_for('static', filename='images/testshow1.jpg') }}" alt="Flight Offer 1" style="width:600px" style="height:auto">
+        </div>
+        <div class="slide fade">
+          <img src="{{ url_for('static', filename='images/testshow2.jpg') }}" alt="Flight Offer 2" style="width:600px" style="height:5px">
+        </div>
+        <div class="slide fade">
+          <img src="{{ url_for('static', filename='images/testshow3.jpg') }}" alt="Flight Offer 2" style="width:600px" style="height:5px">
+        </div>
+      </div>
+
+      
+
+      <script src="{{ url_for('static', filename='slideshow.js') }}"></script>
+
+      
+    <div class="hero" style="height: 100vh; background-image: url('---'); background-size: cover; background-position: center; color: white; display: flex; justify-content: center; align-items: center; text-align: center;">
         <div>
             <h1 style="cursor: default; color: #246b7e;">Fly with TerbangHigh</h1>
             <p style="cursor: default; color: #246b7e;">Book your next adventure today!</p>

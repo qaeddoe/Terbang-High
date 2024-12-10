@@ -124,6 +124,44 @@ nav .search-bar input {
     font-size: 14px;
 }
 
+/*content*/
+/* Center the slideshow */
+.slideshow-container {
+    position: relative;
+    max-width: 600px; /* Set a max-width for the slideshow */
+    margin: 50px auto; /* Center the slideshow with auto margin */
+    margin-top: 100px;
+    border: 5px solid #246b73; /* Add a green border */
+    border-radius: 15px; /* Make the corners rounded */
+    overflow: hidden; /* Ensure the images don't overflow */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Add a shadow for a fancy effect */
+    background-color: #f8f8f8; /* Light background inside the box */
+  }
+  
+  /* Ensure the images fill the container and align perfectly */
+  .slide img {
+    display: block;
+    width: 100%; /* Ensure images scale properly */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 0; /* Remove radius from the images themselves */
+  }
+  
+  /* Add a smooth fade effect to the slides */
+  .fade {
+    animation: fadeEffect 1.5s;
+  }
+  
+  @keyframes fadeEffect {
+    from {
+      opacity: 0.4;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+
+  
 /* Footer */
 footer {
     background-color: #0f4553;
