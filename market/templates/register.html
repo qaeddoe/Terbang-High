@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% block title %}
+Register Page
+{% endblock %}
+
+{% block content %}
+
+<style>
+    /* Reset margin and padding */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 100vh; /* Ensures footer is pushed to the bottom */
+        font-family: 'Open Sans', sans-serif;
+        background-color: white;  /* Set background color to white */
+        color: rgb(255, 255, 255);  /* Change text color to black for contrast */
+    }
+
+    .form-container {
+        flex-grow: 1; /* Makes the form container take up available space */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 120px;
+    }
+
+    .form-register {
+        background-color: #246b73;  /* Set background color of the form to cyan */
+        padding: 20px;
+        border-radius: 10px;
+        width: 100%;
+        max-width: 400px;
+        box-shadow: 0 10px 16px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-register img {
+        width: 80px;
+        height: 80px;
+        margin-bottom: 20px;
+    }
+
+    .form-control {
+        margin-bottom: 15px;
+        border-radius: 5px;
+        padding: 10px;
+    }
+
+    .btn-primary {
+        border-radius: 10px;
+        background-color: #105e86;
+        border: none;
+        transition: background-color 0.3s;
+        width: 350px;
+        height: 50px;
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+</style>
+
+<body>
+    <!-- Main Content -->
+    <div class="form-container">
+        <form method="POST" class="form-register">
+            {{ form.hidden_tag() }}
+            <img src="{{ url_for('static', filename='images/terbanglahv2.png') }}" alt="TerbangHigh Logo" style="width: 120px; height: auto;">
+            <h1 class="h3 mb-3">Create Your Account</h1>
+
+            <div>
+                {{ form.username.label(class="form-label") }}
+                {{ form.username(class="form-control") }}
+            </div>
+
+            <div>
+                {{ form.email_address.label(class="form-label") }}
+                {{ form.email_address(class="form-control") }}
+            </div>
+
+            <div>
+                {{ form.password1.label(class="form-label") }}
+                {{ form.password1(class="form-control") }}
+            </div>
+
+            <div>
+                {{ form.password2.label(class="form-label") }}
+                {{ form.password2(class="form-control") }}
+            </div>
+
+            {{ form.submit(class="btn btn-lg btn-primary btn-block") }}
+        </form>
+    </div>
+
+</body>
+{% endblock %}
