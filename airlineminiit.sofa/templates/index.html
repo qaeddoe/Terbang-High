@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Booking</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <pih1>Flight Booking</h1>
+        <form method="POST">
+            <label for="departure_city">Departure City:</label>
+            <input type="text" id="departure_city" name="departure_city" required>
+
+            <label for="destination_city">Destination City:</label>
+            <input type="text" id="destination_city" name="destination_city" required>
+
+            <label for="trip_type">Trip Type:</label>
+            <select name="trip_type" id="trip_type" required>
+                <option value="one-way">One-way</option>
+                <option value="round-trip">Round-trip</option>
+            </select>
+
+            <label for="departure_date">Departure Date:</label>
+            <input type="date" id="departure_date" name="departure_date" required>
+
+            <button type="submit">Search Flights</button>
+        </form>
+
+        {% if flights %}
+            <h2>Available Flights</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Flight</th>
+                        <th>Departure Time</th>
+                        <th>Arrival Time</th>
+                        <th>Duration</th>
+                        <th>Fare Class</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for flight in flights %}
+                        <tr>
+                            <td>{{ flight[1] }} to {{ flight[2] }}</td>
+                            <td>{{ flight[3] }}</td>
+                            <td>{{ flight[4] }}</td>
+                            <td>{{ flight[5] }}</td>
+                            <td>{{ flight[6] }}</td>
+                            <td>
+                                <form method="POST" action="/book">
+                                    <input type="hidden" name="departure_city" value="{{ flight[1] }}">
+                                    <input type="hidden" name="destination_city" value="{{ flight[2] }}">
+                                    <input type="hidden" name="departure_date" value="{{ departure_date }}">
+                                    {% if trip_type == 'round-trip' %}
+                                        <label for="return_date">Return Date:</label>
+                                        <input type="date" id="return_date" name="return_date" required>
+                                    {% endif %}
+                                    <button type="submit">Book Flight</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    </div>
+</body>
+</html>
