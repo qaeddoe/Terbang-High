@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Booking</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    <script src="{{ url_for('static', filename='js/base.js') }}" defer></script>
+  </head>
+
+<body>
+  <!-- Main container with two sections -->
+  <div class="baseContainer">
+    <!-- Sidebar with Adults Selector -->
+    <div class="sidebar">
+      <!-- Adult 1 Dropdown -->
+      <div class="adults-selector" onclick="toggleDropdown(1)">
+        <img src="{{ url_for('static', filename='images/user.png') }}" alt="User Icon" class="user-icon">
+        <span>Adult 1</span>
+        <div class="right-arrow" id="arrow1"></div>
+      </div>
+      <div class="personal-details" id="adult1Details">
+        <p>Personal Details Info 1</p>
+      </div>
+  </div>
+
+    <!-- Main Content Placeholder -->
+    <div class="main-content">
+      <div class="baseButton-container">
+        <!-- Departure Button with image on the left side -->
+        <button class="baseDeparture-button" onclick="showPopup('departure')">
+          <img src="{{ url_for('static', filename='images/departure.png') }}" alt="Departure Icon" class="departure-icon">
+          Departure Flight
+        </button>
+        
+        
+        <!-- Return Button with image on the right side -->
+        <button class="baseReturn-button" onclick="showPopup('return')">
+          Return Flight
+          <img src="{{ url_for('static', filename='images/landing.png') }}" alt="Return Icon" class="return-icon">
+        </button>
+      </div>
+    </div>    
+
+    <!-- Payment Summary Section -->
+    <div class="payment-container">
+      <h3>My Cart</h3>
+      <img src="{{ url_for('static', filename='images/add-cart.png') }}" alt="Add to Cart" class="addcart-icon">
+      <p id="paymentAmount">$0.00</p>
+      <button onclick="calculatePayment()">Calculate Payment</button>
+    </div>
+
+  <!-- Departure Popup Overlay -->
+  <div class="overlay" id="departureOverlay">
+    <div class="popup">
+      <button class="exit-btn" onclick="hidePopup('departure')"> 
+        <img src="{{ url_for('static', filename='images/x-mark.png') }}" alt="Close" class="close-icon">
+      </button>
+      {% include 'depart.html' %}
+    </div>
+  </div>
+
+  <!-- Return Popup Overlay -->
+  <div class="overlay" id="returnOverlay">
+    <div class="popup">
+      <button class="exit-btn" onclick="hidePopup('return')">
+        <img src="{{ url_for('static', filename='images/x-mark.png') }}" alt="Close" class="close-icon">
+      </button>
+      {% include 'return.html' %}
+    </div>
+  </div>
+
+</body>
+</html>
