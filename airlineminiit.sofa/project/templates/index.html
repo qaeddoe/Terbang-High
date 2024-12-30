@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Booking</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="header-box">
+            <h1>Flight Booking</h1>
+        </div>
+
+        <form method="POST">
+            <div class="autocomplete">
+                <label for="departure_city">Departure City:</label>
+                <input id="departure_city" name="departure_city" required>
+            </div>
+
+            <div class="autocomplete">
+                <label for="destination_city">Destination City:</label>
+                <input id="destination_city" name="destination_city" required>
+            </div>
+
+            <label for="trip_type">Trip Type:</label>
+            <select name="trip_type" id="trip_type" onchange="toggleReturnDate()" required>
+                <option value="one-way">One-way</option>
+                <option value="round-trip">Round-trip</option>
+            </select>
+
+            <label for="departure_date">Departure Date:</label>
+            <input type="date" id="departure_date" name="departure_date" required>
+
+            <div id="return_date_container" style="display: none;">
+                <label for="return_date">Return Date:</label>
+                <input type="date" id="return_date" name="return_date">
+            </div>
+
+            <button type="submit">Search Flights</button>
+        </form>
+
+        <script id="airport-data" type="application/json">
+            {{ airports | tojson }}
+        </script>
+        <script src="{{ url_for('static', filename='js/autocomplete.js') }}"></script>
+    </div>
+</body>
+</html>
