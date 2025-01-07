@@ -1,0 +1,237 @@
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Responsive Sidebar</title>
+    <style>
+        body {
+            background-color: #f3f4f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .sidebar {
+            flex: 0.2;
+            height: auto;
+            width: 250px; 
+            padding: 20px;
+            margin: 5%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start; /* Align items to the left */
+        }
+
+        .user-card {
+            display: flex;
+            align-items: center; /* Align icon and text in the center vertically */
+            padding: 16px;
+            margin-bottom: 16px;
+            border: 3px solid #0a8591;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            position: relative;
+            width: 100%; /* Ensures the card takes up full sidebar width */
+            flex-direction: column; /* Stack the name and dropdown vertically */
+            align-items: flex-start; /* Align the contents to the left */
+        }
+
+        .user-card:hover {
+            background-color: #0a8591;
+        }
+
+        .user-card.hover-background {
+            background-color: #0a8591; /* The color used in the hover state */
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center; /* Align icon and name in a row */
+            width: 100%;
+        }
+
+        .user-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 12px; /* Spacing between icon and name */
+            filter: invert(20%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(50%) contrast(100%);
+        }
+
+        .user-name {
+            color: #333;
+            margin-bottom: 8px; /* Adds space between name and dropdown */
+            flex: 1; /* Ensures name takes available space */
+        }
+
+        .right-arrow {
+            border: solid #333;
+            border-width: 0 3px 3px 0;
+            transform: rotate(-45deg); /* Initial rotation of -45deg */
+            width: 8px;
+            height: 8px;
+            margin-left: 8px;
+            transition: transform 0.3s ease; /* Smooth rotation transition */
+        }
+
+        .right-arrow.active {
+            transform: rotate(45deg); /* Rotate to 45deg when active */
+        }
+
+        /* Initial state of the dropdown (hidden) */
+        .personDropdown {
+            opacity: 0;
+            visibility: hidden;
+            padding: 16px;
+            border: 2px solid #0a8591;
+            border-radius: 15px;
+            background-color: #eeeeef;
+            max-height: 0; /* Prevent the dropdown from showing until it's expanded */
+            box-sizing: border-box;
+            margin-top: 10px;
+            transition: opacity 2s, width 2s, height 2s, max-height 2s ; /* Smooth transitions for all properties */
+        }
+
+        /* When the dropdown is active (shown) */
+        .personDropdown.active {
+            opacity: 1;
+            visibility: visible;
+            width: 100%; /* Full width when visible */
+            height: auto; /* Allow height to expand based on content */
+            max-height: 500px; /* Arbitrary large max-height to accommodate content */
+        }
+
+
+        table {
+            width: 100%;
+            text-align: left;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+
+        table td {
+            padding: 3px;
+        }
+
+        .text-right {
+            text-align: right;
+        }
+
+        .no-border-bottom {
+            border-bottom: none;
+        }
+
+        .no-border {
+            border: none;
+        }
+
+        .bordered {
+            border-bottom: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        {% for user in users %}
+            <div class="user-card" onclick="togglePersonDropdown('{{ user.id }}', this)">
+                <div class="user-info">
+                    <img src="{{ url_for('static', filename='images/user.png') }}" alt="User Icon" class="user-icon">
+                    <span class="user-name">Person {{ loop.index }} - {{ user.name }}</span>
+                    <div class="right-arrow" id="arrow-{{ user.id }}"></div>
+                </div>
+                <div class="personDropdown" id="personDropdown-{{ user.id }}">
+                    <table>
+                        <tr>
+                            <td></td>
+                            <td>Departure</td>
+                            <td>Return</td>
+                            <td></td>
+                        </tr>
+                        <tr class="bordered">
+                            <td>Baggage:</td>
+                            <td id="departure_baggage"></td>
+                            <td id="return_baggage"></td>
+                            <td></td>
+                        </tr>
+                        <tr class="bordered">
+                            <td>Meal:</td>
+                            <td id="departure_meals"></td>
+                            <td id="return_meals"></td>
+                            <td></td>
+                        </tr>
+                        <tr class="bordered">
+                            <td>Assistance:</td>
+                            <td id="departure_assistance"></td>
+                            <td id="return_assistance"></td>
+                            <td></td>
+                        </tr>
+                        <tr class="bordered">
+                            <td>Seats:</td>
+                            <td id="departure_seat"></td>
+                            <td id="return_seat"></td>
+                            <td></td>
+                        </tr>
+                        <tr class="no-border">
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        
+                    </table>
+                </div>
+            </div>
+        {% else %}
+            <p>No users found</p>
+        {% endfor %}
+    </div>
+
+<script>
+
+    function checkStatus(){
+        
+    }
+
+    function togglePersonDropdown(userId, userCardElement) {
+        const dropdowns = document.querySelectorAll('.personDropdown'); // Change class to 'personDropdown'
+        const arrows = document.querySelectorAll('.right-arrow');
+        const userCards = document.querySelectorAll('.user-card');
+
+        // Close dropdowns and reset arrow rotations for other users
+        dropdowns.forEach(dropdown => {
+            if (dropdown.id !== 'personDropdown-' + userId) {
+                dropdown.classList.remove('active');
+            }
+        });
+
+        arrows.forEach(arrow => {
+            if (arrow.id !== 'arrow-' + userId) {
+                arrow.classList.remove('active');
+            }
+        });
+
+        // Toggle the dropdown for the clicked user
+        const dropdown = document.getElementById('personDropdown-' + userId); // Update to match 'personDropdown'
+        const arrow = document.getElementById('arrow-' + userId);
+        dropdown.classList.toggle('active');
+        arrow.classList.toggle('active');
+
+        // Toggle the hover background color for the clicked user card
+        userCards.forEach(card => {
+            card.classList.remove('hover-background'); // Remove the background from all user cards
+        });
+
+        // If the dropdown is active, set the background to hover color
+        if (dropdown.classList.contains('active')) {
+            userCardElement.classList.add('hover-background');
+        } else {
+            userCardElement.classList.remove('hover-background');
+        }
+    }
+
+</script>
+</body>
+</html>

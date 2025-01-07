@@ -1,0 +1,724 @@
+<style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+
+        h2 {
+            margin-top: 25px;
+            margin-left: 0px;
+            text-align: left;
+            color: #333;
+            font-size: 20px;
+        }
+
+        h3 {
+            margin-left: 30px;
+            font-size: 20px;
+            color: #444;
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+
+        h4{
+            color: #eeeeef;
+        }
+
+        p{
+            font-size: 14px;
+        }
+        .container{
+            margin-top: 30px;
+            margin-right: 20px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section2 {
+        width: 80%;
+        padding: 25px 20px 25px 20px;
+        background-color: #e4e4e4;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: background-color 0.3s ease;
+        margin: 30px auto; /* Centers the div horizontally */
+        }
+
+        .seatscontainer {
+            width: 90%;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease;
+            margin: 0 auto;
+        }
+
+
+        /* Row for center alignment */
+        .row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        /* Row styles for business and economy */
+        .business, .economy {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 16px;
+            align-items: center;
+        }
+
+        .business .row-labels, .economy .row-labels {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        /* Seat styling */
+        .seats {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .seat, .Rseat{
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background-color: #246b7e;
+            cursor: pointer;
+        }
+
+        .seat.red, .Rseat.red {
+            background-color: #3099bb;
+        }
+
+        .seat.selected, .Rseat.selected{
+            background-color: #a9bbc7;
+        }
+
+        /* Bathroom Icon */
+        .bathroom {
+            font-size: 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Center the text between the bathroom icons */
+        .center {
+            margin-left: 8px;
+            margin-right: 8px;
+            text-align: center;
+            flex-grow: 1;
+        }
+
+        /* Exit Arrows */
+        .exit {
+            display: flex;
+            justify-content: space-between; /* Space out the items */
+            align-items: center;
+            width: 100%; /* Ensure it takes up the full width */
+        }
+
+        /* Column labels for seat areas (A-F) */
+        .col-labels {
+            display: flex;
+            justify-content: center;
+            gap: 38px;
+            margin: 5px 0 5px 0 ;
+        }
+
+        .col-labels div {
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        /* Side Container for displaying text (on the left) */
+        .seats-side-container {
+            width: 180px; 
+            display: inline-block;
+            background-color: rgba(255, 255, 255, 0.63); 
+            padding: 20px;
+            border-radius: 8px; 
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+            margin-right: 20px; 
+            position: fixed; 
+            top: 10%; 
+            left: 5%; 
+        }
+
+        /* Side container text styling */
+        .seats-side-container p {
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        /* Box container styling */
+        .tiny-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 5px;
+        }
+
+        /* Red box for Business Class */
+        .business-box {
+            width: 10px;
+            height: 10px;
+            background-color: #3099bb;
+            border-radius: 4px; /* Optional: for rounded corners */
+        }
+
+        /* Blue box for Economy Class */
+        .economy-box {
+            width: 10px;
+            height: 10px;
+            background-color: #246b7e;
+            border-radius: 4px; /* Optional: for rounded corners */
+        }
+
+        /* Display selected seat ID */
+        .selected-seat-id {
+            text-align: center;
+            margin-top: 10px;
+            margin-bottom: 15px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .toilet-image {
+            max-width: 20px !important;
+            height: 20px !important; 
+            margin-left: 2px !important;
+        }
+
+        .left-exit-image {
+            max-width: 25px !important;
+            height: 25px !important;
+            margin: 15px 0 15px 0 !important;
+            transform: rotateY(180deg);
+        }
+
+        .right-exit-image {
+            max-width: 25px !important;
+            height: 25px !important;
+            margin: 15px 0 15px 0 !important;
+        }
+
+        .economy-column {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .gap {
+            width: 10px; /* Adjust the width of the gap as needed */
+        }
+
+        .spacer {
+            height: 20px; /* Adjust the height of the spacer as needed */
+        }
+
+    </style>
+    <!-- Baggage Section -->
+    <div id="seats-section" class="section">
+        <div class="section2">
+
+            <div class="selected-seat-id">
+                Departure Seat ID:
+                <span id="selected-seat-id">None</span>
+            </div>
+            
+            <!-- Main container for seats selection -->
+            <div class="seatscontainer">
+                <!-- Seats Selection Header -->
+            
+                <!-- Bathroom Icon Row -->
+                <div class="row">
+                    <div class="bathroom">
+                    <img src="{{ url_for('static', filename='images/toilet.png') }}" alt="Toilet Icon" class="toilet-image">
+                    </div>
+                </div>
+            
+                <!-- Row for Column Labels -->
+                <div class="col-labels">
+                    <div>A</div>
+                    <div>B</div>
+                    <div>C</div>
+                </div>
+            
+                <!-- Rows 1 & 2 (Business Class) -->
+                <div class="business">
+                    <div class="row-labels">1</div>
+                        <div class="seats">
+                            <div class="seat red" id="1A"></div>
+                            <div class="seat red" id="1B"></div>
+                            <div class="seat red" id="1C"></div>
+                        </div>
+                    <div class="row-labels">1</div>
+                </div>
+    
+                <div class="business">
+                    <div class="row-labels">2</div>
+                        <div class="seats">
+                            <div class="seat red" id="2A"></div>
+                            <div class="seat red" id="2B"></div>
+                            <div class="seat red" id="2C"></div>
+                        </div>
+                    <div class="row-labels">2</div>
+                </div>
+            
+                <!-- Spacer between Business and Economy -->
+                <div class="spacer"></div>
+            
+                <!-- Rows 3 to 7 (Economy Class) -->
+                <div class="col-labels">
+                    <div>A</div>
+                    <div>B</div>
+                    <div></div>
+                    <div>C</div>
+                    <div>D</div>
+                    <div></div>
+                    <div>E</div>
+                    <div>F</div>
+                </div>
+            
+                <div class="economy">
+                    <div class="row-labels">3</div>
+                    <div class="seats">
+                        <div class="seat" id="3A"></div>
+                        <div class="seat" id="3B"></div>
+                        <div></div><div></div><div></div>
+                        <div class="seat" id="3C"></div>
+                        <div class="seat" id="3D"></div>
+                        <div></div><div></div><div></div>
+                        <div class="seat" id="3E"></div>
+                        <div class="seat" id="3F"></div>
+                    </div>
+                    <div class="row-labels">3</div>
+                </div>
+            
+                <div class="economy">
+                    <div class="row-labels">4</div>
+                    <div class="seats">
+                        <div class="seat" id="4A"></div>
+                        <div class="seat" id="4B"></div>
+                        <div></div><div></div><div></div>
+                        <div class="seat" id="4C"></div>
+                        <div class="seat" id="4D"></div>
+                        <div></div><div></div><div></div>
+                        <div class="seat" id="4E"></div>
+                        <div class="seat" id="4F"></div>
+                    </div>
+                    <div class="row-labels">4</div>
+                </div>
+            
+                <div class="economy">
+                    <div class="row-labels">5</div>
+                    <div class="seats">
+                        <div class="seat" id="5A"></div>
+                        <div class="seat" id="5B"></div>
+                        <div></div><div></div><div></div>
+                        <div class="seat" id="5C"></div>
+                        <div class="seat" id="5D"></div>
+                        <div></div><div></div><div></div>
+                        <div class="seat" id="5E"></div>
+                        <div class="seat" id="5F"></div>
+                    </div>
+                    <div class="row-labels">5</div>
+                </div>
+            
+                <div class="economy">
+                    <div class="row-labels">6</div>
+                    <div class="seats">
+                        <div class="seat" id="6A"></div>
+                        <div class="seat" id="6B"></div>
+                        <div></div><div></div><div></div>
+                        <div class="seat" id="6C"></div>
+                        <div class="seat" id="6D"></div>
+                        <div></div><div></div><div></div>
+                        <div class="seat" id="6E"></div>
+                        <div class="seat" id="6F"></div>
+                    </div>
+                    <div class="row-labels">6</div>
+                </div>
+
+                <!-- Exit Row -->
+                <div class="exit">
+                    <img src="{{ url_for('static', filename='images/exit.png') }}" alt="Exit Icon" class="left-exit-image">
+                    <img src="{{ url_for('static', filename='images/exit.png') }}" alt="Exit Icon" class="right-exit-image">
+                </div>
+            
+                <div class="economy">
+                    <div class="row-labels">7</div>
+                    <div class="seats">
+                        <div class="seat" id="7A"></div>
+                        <div class="seat" id="7B"></div>
+                        <div></div><div></div><div></div>
+                        <div class="seat" id="7C"></div>
+                        <div class="seat" id="7D"></div>
+                        <div></div><div></div><div></div>
+                        <div class="seat" id="7E"></div>
+                        <div class="seat" id="7F"></div>
+                    </div>
+                    <div class="row-labels">7</div>
+                </div>
+
+            
+                <div class="economy">
+                            <div class="row-labels">8</div>
+                            <div class="seats">
+                                <div class="seat" id="8A"></div>
+                                <div class="seat" id="8B"></div>
+                                <div></div><div></div><div></div>
+                                <div class="seat" id="8C"></div>
+                                <div class="seat" id="8D"></div>
+                                <div></div><div></div><div></div>
+                                <div class="seat" id="8E"></div>
+                                <div class="seat" id="8F"></div>
+                            </div>
+                            <div class="row-labels">8</div>
+                        </div>
+            
+                        <div class="economy">
+                            <div class="row-labels">9</div>
+                            <div class="seats">
+                                <div class="seat" id="9A"></div>
+                                <div class="seat" id="9B"></div>
+                                <div></div><div></div><div></div>
+                                <div class="seat" id="9C"></div>
+                                <div class="seat" id="9D"></div>
+                                <div></div><div></div><div></div>
+                                <div class="seat" id="9E"></div>
+                                <div class="seat" id="9F"></div>
+                            </div>
+                            <div class="row-labels">9</div>
+                        </div>
+            
+                        <div class="economy">
+                            <div class="row-labels">10</div>
+                            <div class="seats">
+                                <div class="seat" id="10A"></div>
+                                <div class="seat" id="10B"></div>
+                                <div></div><div></div><div></div>
+                                <div class="seat" id="10C"></div>
+                                <div class="seat" id="10D"></div>
+                                <div></div><div></div><div></div>
+                                <div class="seat" id="10E"></div>
+                                <div class="seat" id="10F"></div>
+                            </div>
+                            <div class="row-labels">10</div>
+                        </div>
+            
+                        <div class="economy">
+                            <div class="row-labels">11</div>
+                            <div class="seats">
+                                <div class="seat" id="11A"></div>
+                                <div class="seat" id="11B"></div>
+                                <div></div><div></div><div></div>
+                                <div class="seat" id="11C"></div>
+                                <div class="seat" id="11D"></div>
+                                <div></div><div></div><div></div>
+                                <div class="seat" id="11E"></div>
+                                <div class="seat" id="11F"></div>
+                            </div>
+                            <div class="row-labels">11</div>
+                        </div>
+            
+            
+                    <!-- Bathroom Icon Row -->
+                    <div class="row">
+                        <div class="bathroom">
+                            <img src="{{ url_for('static', filename='images/toilet.png') }}" alt="Toilet Icon" class="toilet-image"></div>
+                    </div> 
+            
+                    <!-- Side Container on the right -->
+                    <div class="seats-side-container">
+    
+                        <!-- Business Class Box (Red) and Text -->
+                        <div class="tiny-box">
+                            <div class="business-box"></div>
+                            <p>Business Class MYR500</p>
+                        </div>
+    
+                        <!-- Economy Class Box (Blue) and Text -->
+                        <div class="tiny-box">
+                            <div class="economy-box"></div>
+                                <p>Economy Class MYR150</p>
+                            </div>
+                        </div>
+    
+                    </div>
+
+                    <div class="section">
+                        <div class="next">
+                            <button type="button" onclick="showReturnSeatsPopup()">Return Flight</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            
+
+
+    <!-- Return Flight Popup -->
+<div id="return-seats-popup" class="section" style="display: none;">
+    <div class="section2">
+
+        <!-- Display Selected Seat ID -->
+        <div class="selected-seat-id">
+            Return Seat ID:
+            <span id="selected-seat-id-return">None</span>
+        </div>
+        
+        <!-- Main container for seats selection -->
+        <div class="seatscontainer">
+            <!-- Seats Selection Header -->
+        
+            <!-- Bathroom Icon Row -->
+            <div class="row">
+                <div class="bathroom">
+                <img src="{{ url_for('static', filename='images/toilet.png') }}" alt="Toilet Icon" class="toilet-image">
+                </div>
+            </div>
+        
+            <!-- Row for Column Labels -->
+            <div class="col-labels">
+                <div>A</div>
+                <div>B</div>
+                <div>C</div>
+            </div>
+        
+            <!-- Rows 1 & 2 (Business Class) -->
+            <div class="business">
+                <div class="row-labels">1</div>
+                    <div class="seats">
+                        <div class="Rseat red" id="1A"></div>
+                        <div class="Rseat red" id="1B"></div>
+                        <div class="Rseat red" id="1C"></div>
+                    </div>
+                <div class="row-labels">1</div>
+            </div>
+    
+            <div class="business">
+                <div class="row-labels">2</div>
+                    <div class="seats">
+                        <div class="Rseat red" id="2A"></div>
+                        <div class="Rseat red" id="2B"></div>
+                        <div class="Rseat red" id="2C"></div>
+                    </div>
+                <div class="row-labels">2</div>
+            </div>
+        
+            <!-- Spacer between Business and Economy -->
+            <div class="spacer"></div>
+        
+            <!-- Rows 3 to 7 (Economy Class) -->
+            <div class="col-labels">
+                <div>A</div>
+                <div>B</div>
+                <div></div>
+                <div>C</div>
+                <div>D</div>
+                <div></div>
+                <div>E</div>
+                <div>F</div>
+            </div>
+        
+            <div class="economy">
+                <div class="row-labels">3</div>
+                <div class="seats">
+                    <div class="Rseat" id="3A"></div>
+                    <div class="Rseat" id="3B"></div>
+                    <div></div><div></div><div></div>
+                    <div class="Rseat" id="3C"></div>
+                    <div class="Rseat" id="3D"></div>
+                    <div></div><div></div><div></div>
+                    <div class="Rseat" id="3E"></div>
+                    <div class="Rseat" id="3F"></div>
+                </div>
+                <div class="row-labels">3</div>
+            </div>
+        
+            <div class="economy">
+                <div class="row-labels">4</div>
+                <div class="seats">
+                    <div class="Rseat" id="4A"></div>
+                    <div class="Rseat" id="4B"></div>
+                    <div></div><div></div><div></div>
+                    <div class="Rseat" id="4C"></div>
+                    <div class="Rseat" id="4D"></div>
+                    <div></div><div></div><div></div>
+                    <div class="Rseat" id="4E"></div>
+                    <div class="Rseat" id="4F"></div>
+                </div>
+                <div class="row-labels">4</div>
+            </div>
+        
+            <div class="economy">
+                <div class="row-labels">5</div>
+                <div class="seats">
+                    <div class="Rseat" id="5A"></div>
+                    <div class="Rseat" id="5B"></div>
+                    <div></div><div></div><div></div>
+                    <div class="Rseat" id="5C"></div>
+                    <div class="Rseat" id="5D"></div>
+                    <div></div><div></div><div></div>
+                    <div class="Rseat" id="5E"></div>
+                    <div class="Rseat" id="5F"></div>
+                </div>
+                <div class="row-labels">5</div>
+            </div>
+        
+            <div class="economy">
+                <div class="row-labels">6</div>
+                <div class="seats">
+                    <div class="Rseat" id="6A"></div>
+                    <div class="Rseat" id="6B"></div>
+                    <div></div><div></div><div></div>
+                    <div class="Rseat" id="6C"></div>
+                    <div class="Rseat" id="6D"></div>
+                    <div></div><div></div><div></div>
+                    <div class="Rseat" id="6E"></div>
+                    <div class="Rseat" id="6F"></div>
+                </div>
+                <div class="row-labels">6</div>
+            </div>
+
+            <!-- Exit Row -->
+            <div class="exit">
+                <img src="{{ url_for('static', filename='images/exit.png') }}" alt="Exit Icon" class="left-exit-image">
+                <img src="{{ url_for('static', filename='images/exit.png') }}" alt="Exit Icon" class="right-exit-image">
+            </div>
+        
+            <div class="economy">
+                <div class="row-labels">7</div>
+                <div class="seats">
+                    <div class="Rseat" id="7A"></div>
+                    <div class="Rseat" id="7B"></div>
+                    <div></div><div></div><div></div>
+                    <div class="Rseat" id="7C"></div>
+                    <div class="Rseat" id="7D"></div>
+                    <div></div><div></div><div></div>
+                    <div class="Rseat" id="7E"></div>
+                    <div class="Rseat" id="7F"></div>
+                </div>
+                <div class="row-labels">7</div>
+            </div>
+        
+        
+            <div class="economy">
+                        <div class="row-labels">8</div>
+                        <div class="seats">
+                            <div class="Rseat" id="8A"></div>
+                            <div class="Rseat" id="8B"></div>
+                            <div></div><div></div><div></div>
+                            <div class="Rseat" id="8C"></div>
+                            <div class="Rseat" id="8D"></div>
+                            <div></div><div></div><div></div>
+                            <div class="Rseat" id="8E"></div>
+                            <div class="Rseat" id="8F"></div>
+                        </div>
+                        <div class="row-labels">8</div>
+                    </div>
+        
+                    <div class="economy">
+                        <div class="row-labels">9</div>
+                        <div class="seats">
+                            <div class="Rseat" id="9A"></div>
+                            <div class="Rseat" id="9B"></div>
+                            <div></div><div></div><div></div>
+                            <div class="Rseat" id="9C"></div>
+                            <div class="Rseat" id="9D"></div>
+                            <div></div><div></div><div></div>
+                            <div class="Rseat" id="9E"></div>
+                            <div class="Rseat" id="9F"></div>
+                        </div>
+                        <div class="row-labels">9</div>
+                    </div>
+        
+                    <div class="economy">
+                        <div class="row-labels">10</div>
+                        <div class="seats">
+                            <div class="Rseat" id="10A"></div>
+                            <div class="Rseat" id="10B"></div>
+                            <div></div><div></div><div></div>
+                            <div class="Rseat" id="10C"></div>
+                            <div class="Rseat" id="10D"></div>
+                            <div></div><div></div><div></div>
+                            <div class="Rseat" id="10E"></div>
+                            <div class="Rseat" id="10F"></div>
+                        </div>
+                        <div class="row-labels">10</div>
+                    </div>
+        
+                    <div class="economy">
+                        <div class="row-labels">11</div>
+                        <div class="seats">
+                            <div class="Rseat" id="11A"></div>
+                            <div class="Rseat" id="11B"></div>
+                            <div></div><div></div><div></div>
+                            <div class="Rseat" id="11C"></div>
+                            <div class="Rseat" id="11D"></div>
+                            <div></div><div></div><div></div>
+                            <div class="Rseat" id="11E"></div>
+                            <div class="Rseat" id="11F"></div>
+                        </div>
+                        <div class="row-labels">11</div>
+                    </div>
+        
+
+                <!-- Bathroom Icon Row -->
+                <div class="row">
+                    <div class="bathroom">
+                        <img src="{{ url_for('static', filename='images/toilet.png') }}" alt="Toilet Icon" class="toilet-image"></div>
+                </div> 
+        
+                <!-- Side Container on the right -->
+                <div class="seats-side-container">
+    
+                    <!-- Business Class Box (Red) and Text -->
+                    <div class="tiny-box">
+                        <div class="business-box"></div>
+                        <p>Business Class MYR500</p>
+                    </div>
+    
+                    <!-- Economy Class Box (Blue) and Text -->
+                    <div class="tiny-box">
+                        <div class="economy-box"></div>
+                            <p>Economy Class MYR150</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <div class="next">
+                        <button type="button" onclick="hideReturnSeatsPopup()">Departure Flight</button>
+                    </div>
+                </div>
+
+            </div>
+            <submit class="next">
+                <button type="submit" onclick="return submitSeat()">
+                    <img src="{{ url_for('static', filename='images/submit.png') }}" alt="Continue" class="continue-icon">
+                </button>
+            </submit>
+        </div>
+    </div>
+    
+</div>
+
+<script src="{{ url_for('static', filename='js/submission.js') }}"></script>
