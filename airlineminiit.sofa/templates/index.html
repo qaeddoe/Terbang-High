@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Booking</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1 class="title-box">Flight Booking</h1>
+        
+        <form action="/select-flight" method="GET">
+            <!-- Departure and Destination Fields -->
+            <div class="field-group">
+                <label for="departure_city">Departure Airport (Name/Code/State):</label>
+                <div class="switch-container">
+                    <input type="text" id="departure_city" name="departure_city" placeholder="Enter airport name, code, or state" required>
+                    <button type="button" id="switch_button" class="switch-btn">⇆</button>
+                    <input type="text" id="destination_city" name="destination_city" placeholder="Enter airport name, code, or state" required>
+                </div>
+            </div>
+
+            <!-- Flight Type -->
+            <div class="field-group">
+                <label for="flight_type">Flight Type:</label>
+                <select name="flight_type" id="flight_type" required>
+                    <option value="one_way">One Way</option>
+                    <option value="returning">Returning</option>
+                </select>
+            </div>
+
+            <!-- Departure and Arrival Dates -->
+            <div id="departure_date_container" class="field-group">
+                <label for="departure_date">Departure Date:</label>
+                <input type="date" id="departure_date" name="departure_date" required>
+            </div>
+
+            <div id="arrival_date_container" class="field-group" style="display: none;">
+                <label for="arrival_date">Arrival Date:</label>
+                <input type="date" id="arrival_date" name="arrival_date">
+            </div>
+
+            <!-- Passengers and Cabin Class -->
+            <div class="field-group">
+                <label for="passengers_cabin">Passengers and Cabin Class:</label>
+                <input type="text" id="passengers_cabin" name="passengers_cabin" placeholder="1 Passenger, Economy" readonly>
+                <div id="passenger_popup" class="popup-box" style="display: none;">
+                    <div class="popup-content">
+                        <h3>Passengers and Cabin Class</h3>
+                        <div class="passenger-group">
+                            <label>Adults (12 and above)</label>
+                            <div class="counter">
+                                <button type="button" class="decrement" data-target="adults">-</button>
+                                <span id="adults-count">1</span>
+                                <button type="button" class="increment" data-target="adults">+</button>
+                            </div>
+                        </div>
+                        <div class="passenger-group">
+                            <label>Children (2 to 11)</label>
+                            <div class="counter">
+                                <button type="button" class="decrement" data-target="children">-</button>
+                                <span id="children-count">0</span>
+                                <button type="button" class="increment" data-target="children">+</button>
+                            </div>
+                        </div>
+                        <div class="passenger-group">
+                            <label>Infants (below 2)</label>
+                            <div class="counter">
+                                <button type="button" class="decrement" data-target="infants">-</button>
+                                <span id="infants-count">0</span>
+                                <button type="button" class="increment" data-target="infants">+</button>
+                            </div>
+                        </div>
+                        <div class="cabin-class-group">
+                            <label>Cabin Class</label>
+                            <select id="cabin_class" name="cabin_class" required>
+                                <option value="Economy">Economy</option>
+                                <option value="Premium Economy">Premium Economy</option>
+                                <option value="Business">Business</option>
+                                <option value="First Class">First Class</option>
+                            </select>
+                        </div>
+                        <button type="button" id="apply_changes">Apply</button>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="button-box">Book Flight</button>
+        </form>
+        
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
