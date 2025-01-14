@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Available Flights</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Available Flights</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Departure City</th>
+                    <th>Destination City</th>
+                    <th>Flight Type</th>
+                    <th>Class</th>
+                    <th>Departure Date</th>
+                    <th>Arrival Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for flight in flights %}
+                <tr>
+                    <td>{{ flight[1] }}</td>
+                    <td>{{ flight[2] }}</td>
+                    <td>{{ flight[3] }}</td>
+                    <td>{{ flight[4] }}</td>
+                    <td>{{ flight[5] }}</td>
+                    <td>{{ flight[6] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="/">Back to Booking</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Passenger Details</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Flight Details -->
+        <div class="flight-summary">
+            <h3>{{ departure_city }} ⇆ {{ destination_city }}</h3>
+            <p><i class="calendar-icon"></i> {{ departure_date }} - {{ arrival_date }}</p>
+            <p><i class="passenger-icon"></i> {{ passengers }} Passenger(s)</p>
+        </div>
+
+        <!-- Page Title -->
+        <h1 class="title-box">Passenger Details</h1>
+
+        <!-- Passenger Details Section -->
+        <form action="/submit-passenger-details" method="POST">
+            {% for passenger in range(1, passengers|int + 1) %}
+            <input type="hidden" name="booking_id" value="{{ request.args.get('booking_id') }}">
+            <input type="hidden" name="passengers" value="{{ passengers }}">
+
+            <div class="passenger-section">
+                <h2>Passenger {{ passenger }}</h2>
+                <p>Adult</p>
+                <div class="field-group">
+                    <label for="title_{{ passenger }}">Title</label>
+                    <select name="title_{{ passenger }}" id="title_{{ passenger }}" required>
+                        <option value="">Choose your title</option>
+                        <option value="Mr">Mr</option>
+                        <option value="Mrs">Mrs</option>
+                        <option value="Ms">Ms</option>
+                        <option value="Dato">Dato</option>
+                        <option value="Dr">Dr</option>
+                    </select>
+                </div>
+                <div class="field-group">
+                    <label for="first_name_{{ passenger }}">First & Middle Name*</label>
+                    <input type="text" name="first_name_{{ passenger }}" id="first_name_{{ passenger }}" placeholder="Your first name" required>
+                </div>
+                <div class="field-group">
+                    <label for="last_name_{{ passenger }}">Last Name/Surname*</label>
+                    <input type="text" name="last_name_{{ passenger }}" id="last_name_{{ passenger }}" placeholder="Your last name/surname" required>
+                </div>
+            </div>
+            <hr>
+            {% endfor %}
+
+            <!-- Contact Information Section -->
+            <div class="contact-information">
+                <h2>Contact Information</h2>
+                <p>Enter your email and phone number to receive booking confirmation and trip updates.</p>
+                <div class="field-group">
+                    <label for="email">Email*</label>
+                    <input type="email" name="email" id="email" placeholder="Your email address" required>
+                </div>
+                <div class="field-group">
+                    <label for="confirm_email">Confirm Email*</label>
+                    <input type="email" name="confirm_email" id="confirm_email" placeholder="Your email address" required>
+                </div>
+                <div class="field-group">
+                    <label for="phone_number">Phone Number*</label>
+                    <input type="text" name="phone_number" id="phone_number" placeholder="Your mobile phone" required>
+                </div>
+            </div>
+            
+            <!-- Emergency Contact Section -->
+            <div class="emergency-contact">
+                <button type="button" class="toggle-button" id="toggle-emergency-contact">
+                    + Fill Emergency Contact
+                </button>
+                <div id="emergency-contact-details" style="display: none;">
+                    <div class="field-group">
+                        <label for="emergency_name">Emergency Contact Name*</label>
+                        <input type="text" name="emergency_name" id="emergency_name" placeholder="Emergency contact name">
+                    </div>
+        
+                    <div class="field-group">
+                        <label for="emergency_number">Emergency Contact Number*</label>
+                        <input type="text" name="emergency_number" id="emergency_number" placeholder="Emergency contact number">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="button-box">Proceed</button>
+        </form>
+    </div>
+
+    
+    <script>
+        document.getElementById("toggle-emergency-contact").addEventListener("click", () => {
+            const emergencyDetails = document.getElementById("emergency-contact-details");
+            if (emergencyDetails.style.display === "none") {
+                emergencyDetails.style.display = "block";
+            } else {
+                emergencyDetails.style.display = "none";
+            }
+        });
+    </script>
+</body>
+</html>

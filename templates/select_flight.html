@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Your Flight</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="page-2">
+
+    <div class="container">
+        <h1 class="title-box">Select Your Depart Flight</h1>
+
+        <!-- Search Summary -->
+        <div class="search-summary">
+            <div>
+                <h3>{{ departure_city }} → {{ destination_city }}</h3>
+                <p>Departure Date: {{ departure_date }}</p>
+            </div>
+            <div>
+                <p>{{ passengers }} Passenger(s)</p>
+            </div>
+        </div>
+
+        <hr>
+
+        <!-- Available Flights -->
+        <div class="flight-options">
+            {% for flight in flights %}
+            <div class="flight-card">
+                <div class="flight-time">
+                    <h4>{{ flight.departure_time }}</h4>
+                    <p>{{ departure_city }}</p>
+                </div>
+                <div class="flight-details">
+                    <p>{{ flight.airline }} - {{ flight.flight_number }}</p>
+                    <p>Non-stop {{ flight.duration }}</p>
+                </div>
+                <div class="flight-time">
+                    <h4>{{ flight.arrival_time }}</h4>
+                    <p>{{ destination_city }}</p>
+                </div>
+                <div class="flight-price">
+                    <h4>MYR {{ flight.price }}</h4>
+                    <button 
+                        class="select-flight-btn" 
+                        data-flight-id="{{ flight.id }}">
+                        Select
+                    </button>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const flightButtons = document.querySelectorAll(".select-flight-btn");
+    
+            flightButtons.forEach((button) => {
+                button.addEventListener("click", () => {
+                    const selectedFlightId = button.getAttribute("data-flight-id");
+                    const urlParams = new URLSearchParams(window.location.search);
+    
+                    // Redirect based on flight type
+                    if (urlParams.get("flight_type") === "one_way") {
+                        // Redirect to passenger-details for One-Way flight
+                        window.location.href = `/passenger-details?flight_id=${selectedFlightId}&${urlParams.toString()}`;
+                    } else {
+                        // Redirect to select-returning-flight for Returning flight
+                        window.location.href = `/select-returning-flight?flight_id=${selectedFlightId}&${urlParams.toString()}`;
+                    }
+                });
+            });
+            button.addEventListener("click", () => {
+                const selectedFlightId = button.getAttribute("data-flight-id");
+                const urlParams = new URLSearchParams(window.location.search);
+            
+                // Include booking_id in redirect
+                const bookingId = urlParams.get("booking_id");
+                window.location.href = `/passenger-details?flight_id=${selectedFlightId}&booking_id=${bookingId}&${urlParams.toString()}`;
+            });
+            
+        });
+    </script>
+    
+    
+</body>
+</html>
